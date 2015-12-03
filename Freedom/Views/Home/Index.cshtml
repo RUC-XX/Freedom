@@ -1,0 +1,83 @@
+﻿@model Freedom.Models.LoginModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>用户登录界面</title>
+    <link rel="stylesheet" type="text/css" href="/Content/css/styles.css">
+    <script src="~/Scripts/jquery-1.10.2.min.js"></script>
+    <script src="~/Scripts/jquery.validate.min.js"></script>
+    <script src="~/Scripts/jquery.validate.unobtrusive.min.js"></script>
+</head>
+<body>
+    <div style="text-align:center;margin-top:90px">
+        <h1 style=" font-family:黑体;color:brown;">教学资源预约系统登录</h1>
+        <p>
+            <img src="/Content/images/home78.jpg" style="height: 50px;width: 70px" />
+        </p>
+    </div>
+    <div class="wrapper">
+        <div class="container">
+            <h1>Welcome</h1>
+            <section id="loginForm">
+                @using (Html.BeginForm("login", "account", "post", FormMethod.Post, new { @class = "form", id = "form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <span class="tips" id="divtel"></span>
+                    @Html.TextBoxFor(m => m.UserName)
+                    @Html.PasswordFor(m => m.Password)                               
+                        <button id="login" type="submit">登录</button>
+                        <button id="register">注册</button>
+                        @*@Html.CheckBoxFor(m => m.RememberMe, new { @class = "checkbox" })
+                        @Html.LabelFor(m => m.RememberMe, new { @class = "checkbox" })*@
+                }
+            </section>
+        </div>
+        <!--浮块动画列表-->
+        <ul class="bg-bubbles">
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+            <li></li>
+        </ul>
+    </div>
+    <script src="/Content/js/jquery-2.1.1.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/Content/js/jquery-2.1.1.min.js"><\/script>')</script>
+    <script>
+        $('#login').click(function (event) {
+            event.preventDefault();
+            $.ajax({
+                url: "/account/login",
+                cache: false,
+                type: "POST",
+                data: $('#form').serialize(),
+                success: function (data) {
+                    if (data == "True") {
+                        $('form').fadeOut(1000);
+                        $('.wrapper').addClass('form-success'),
+                        location.href = "/account/manage";
+                    } else {
+                        divtel.innerHTML = '<font style="color:red;">用户密码或用户名有错误，请重新输入！</font>';
+                    }
+                }
+            })
+        });
+    </script>
+    <script>
+        $('#register').click(function (event) {
+            event.preventDefault();
+            window.location.href = "/account/register";
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+﻿@model Freedom.Models.RegisterModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>注册</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+    <link rel="stylesheet" href="/content/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/content/assets/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/content/assets/css/form-elements.css">
+    <link rel="stylesheet" href="/content/assets/css/style.css">
+    <style>
+        .field-validation-error{
+            color:red;
+        }
+        .validation-summary-errors ul{
+            color: red;
+            list-style-type:none;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Top content -->
+    <div class="top-content">
+        <div class="inner-bg">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-6 col-sm-offset-3 form-box">
+                        @using (Html.BeginForm("register", "account", "post", FormMethod.Post, new { @class = "registration-form", role = "form" })){                                               
+                            <fieldset>                                
+                                <div class="form-top">
+                                    <div class="form-top-left">
+                                        <h3>Step 1 / 2</h3>
+                                        <h4>基本信息</h4>
+                                    </div>
+                                    <div class="form-top-right">
+                                        <i class="fa fa-user"></i>
+                                    </div>
+                                </div>
+                                <div class="form-bottom">
+                                    <div class="form-group">
+                                        @Html.TextBoxFor(m => m.UserName, new { @class = "form-first-name form-control", id = "form-first-name", placeholder="用户名" })  
+                                        @Html.ValidationMessageFor(m => m.UserName)                                     
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.TextBoxFor(m => m.EMail, new { @class = "form-email form-control",placeholder="电子邮箱"})
+                                        @Html.ValidationMessageFor(m => m.EMail)
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control", placeholder = "手机号" })
+                                        @Html.ValidationMessageFor(m => m.PhoneNumber)
+                                    </div>
+                                    <button type="button" class="btn btn-next">Next</button>
+                                </div>
+                            </fieldset>
+
+                            <fieldset>
+                                <div class="form-top">
+                                    <div class="form-top-left">
+                                        <h3>Step 2 / 2</h3>
+                                        <h4>安全保护</h4>
+                                    </div>
+                                    <div class="form-top-right">
+                                        <i class="fa fa-key"></i>
+                                    </div>
+                                </div>
+                                <div class="form-bottom">
+                                    <div class="form-group">
+                                        @Html.TextBoxFor(m => m.Password, new { @class = "form-password form-control", placeholder = "密码",type="password"})
+                                        @Html.ValidationMessageFor(m => m.Password)                                       
+                                    </div>
+                                    <div class="form-group">
+                                        @Html.TextBoxFor(m => m.ConfirmPassword, new { @class = "form-repeat-password form-control", placeholder = "确认密码", type = "password" })
+                                        @Html.ValidationMessageFor(m => m.ConfirmPassword)
+                                    </div>                                  
+                                    <button type="button" class="btn btn-previous">Previous</button>
+                                    <button type="submit" class="btn">Sign me up!</button>
+                                </div>
+                            </fieldset>
+                             @Html.AntiForgeryToken()
+                            @Html.ValidationSummary()
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Javascript -->
+    *@section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+    }
+    <script src="/content/assets/js/jquery-1.11.1.min.js"></script>
+    <script src="/content/assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/content/assets/js/jquery.backstretch.min.js"></script>
+    <script src="/content/assets/js/retina-1.1.0.min.js"></script>
+    <script src="/content/assets/js/scripts.js"></script>
+</body>
+</html>

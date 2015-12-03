@@ -1,0 +1,48 @@
+﻿@model Freedom.Models.LocalPasswordModel
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>注册</title>
+    <!-- CSS -->
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:400,100,300,500">
+    <link rel="stylesheet" href="/content/assets/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/content/assets/font-awesome/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/content/assets/css/form-elements.css">
+    <link rel="stylesheet" href="/content/assets/css/style.css">
+    <style>
+        .field-validation-error {
+            color: red;
+        }
+
+        .validation-summary-errors ul {
+            color: red;
+            list-style-type: none;
+        }
+    </style>
+</head>
+<body>
+<p class="message-success">@ViewBag.StatusMessage</p>
+@if (ViewBag.HasLocalPassword)
+{
+    @Html.Partial("_ChangePasswordPartial")
+}
+else
+{
+    @Html.Partial("_SetPasswordPartial")
+}
+
+<!-- Javascript -->
+    *@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    }
+    <script src="/content/assets/js/jquery-1.11.1.min.js"></script>
+    <script src="/content/assets/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/content/assets/js/jquery.backstretch.min.js"></script>
+    <script src="/content/assets/js/retina-1.1.0.min.js"></script>
+    <script src="/content/assets/js/scripts.js"></script>
+    </body>
+</html>
