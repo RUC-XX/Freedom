@@ -17,11 +17,15 @@ namespace Freedom.Models
         public webpages_Roles()
         {
             this.Userprofile = new HashSet<Userprofile>();
+            this.User = new HashSet<User>();
         }
     
         public int RoleId { get; set; }
         public string RoleName { get; set; }
     
         public virtual ICollection<Userprofile> Userprofile { get; set; }
+        public virtual ICollection<User> User { get; set; }
+        public virtual webpages_Roles webpages_Roles1 { get; set; }
+        public virtual webpages_Roles webpages_Roles2 { get; set; }
     }
 }

@@ -26,8 +26,15 @@ namespace Freedom.Controllers
         [ValidateAntiForgeryToken]
         public bool Login(LoginModel model)
         {
+            //挂起一秒
+            System.Threading.Thread.Sleep(1000);
             if (ModelState.IsValid && WebSecurity.Login(model.UserName, model.Password, persistCookie: model.RememberMe))
             {
+                Session["User"] = model.UserName;
+                string role = (from u in db.Userprofile
+                               where u.UserName == model.UserName
+                               select u.User.webpages_Roles.RoleName).First();
+                Session["role"] = role;
                 return true;
             }
             // 如果我们进行到这一步时某个地方出错，则重新显示表单
@@ -37,8 +44,7 @@ namespace Freedom.Controllers
         //
         // POST: /Account/LogOff
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
+
         public ActionResult LogOff()
         {
             WebSecurity.Logout();

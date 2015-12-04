@@ -22,12 +22,12 @@
     </div>
     <div class="wrapper">
         <div class="container">
-            <h1>Welcome</h1>
-            <section id="loginForm">
+            <h1 id="welcome"></h1>
+            <section id="loginForm">                
                 @using (Html.BeginForm("login", "account", "post", FormMethod.Post, new { @class = "form", id = "form" }))
                 {
                     @Html.AntiForgeryToken()
-                    <span class="tips" id="divtel"></span>
+                    <span class="tips" id="divtel"></span>                    
                     @Html.TextBoxFor(m => m.UserName)
                     @Html.PasswordFor(m => m.Password)                               
                         <button id="login" type="submit">登录</button>
@@ -56,6 +56,7 @@
     <script>
         $('#login').click(function (event) {
             event.preventDefault();
+            $('form').fadeOut(1000);
             $.ajax({
                 url: "/account/login",
                 cache: false,
@@ -63,10 +64,13 @@
                 data: $('#form').serialize(),
                 success: function (data) {
                     if (data == "True") {
-                        $('form').fadeOut(1000);
-                        $('.wrapper').addClass('form-success'),
-                        location.href = "/account/manage";
+                        welcome.innerHTML = '<font style="color:white;">Welcome</font>';
+                        $('.wrapper').addClass('form-success'),                          
+                        setTimeout(function () {
+                         location.href = "/user/index";
+                        },2000)
                     } else {
+                        $('form').fadeIn(2000);
                         divtel.innerHTML = '<font style="color:red;">用户密码或用户名有错误，请重新输入！</font>';
                     }
                 }

@@ -185,7 +185,9 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\FrameController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -224,6 +226,12 @@
       <DependentUpon>FreeData.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Place.cs">
+      <DependentUpon>FreeData.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
+      <DependentUpon>FreeData.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\sp_helpdiagrams_Result.cs">
       <DependentUpon>FreeData.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sysdiagrams.cs">
@@ -284,14 +292,18 @@
     <Content Include="Content\css\bootstrap.min.css" />
     <Content Include="Content\css\bootstrap.min1.css" />
     <Content Include="Content\css\default.css" />
+    <Content Include="Content\css\font-awesome.min.css" />
     <Content Include="Content\css\fullcalendar.min.css" />
     <Content Include="Content\css\fullcalendar.print.css" />
+    <Content Include="Content\css\ionicons.min.css" />
     <Content Include="Content\css\normalize.css" />
     <Content Include="Content\css\sfq_default.css" />
     <Content Include="Content\css\sfq_styles.css" />
     <Content Include="Content\css\skin-blue.min.css" />
     <Content Include="Content\css\styles.css" />
     <Content Include="Content\css\zhuce.css" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\fonts\Ubuntu-LICENSE.txt" />
     <Content Include="Content\images\1.jpg" />
     <Content Include="Content\images\12.jpg" />
     <Content Include="Content\images\13.jpg" />
@@ -442,6 +454,17 @@
       <DependentUpon>FreeData.edmx</DependentUpon>
       <LastGenOutput>FreeData.cs</LastGenOutput>
     </Content>
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\fonts\Ubuntu-Bold.ttf" />
+    <Content Include="Content\fonts\Ubuntu-BoldItalic.ttf" />
+    <Content Include="Content\fonts\Ubuntu-Italic.ttf" />
+    <Content Include="Content\fonts\Ubuntu-Light.ttf" />
+    <Content Include="Content\fonts\Ubuntu-LightItalic.ttf" />
+    <Content Include="Content\fonts\Ubuntu-Medium.ttf" />
+    <Content Include="Content\fonts\Ubuntu-MediumItalic.ttf" />
+    <Content Include="Content\fonts\Ubuntu-Regular.ttf" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
@@ -491,6 +514,19 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Web.config" />
+    <Content Include="Views\Frame\Info.cshtml" />
+    <Content Include="Views\User\Info.cshtml" />
+    <Content Include="Views\User\Index.cshtml" />
+    <Content Include="Views\Frame\Calender.cshtml" />
+    <Content Include="Views\User\Calender.cshtml" />
+    <Content Include="Views\User\Reservation.cshtml" />
+    <Content Include="Views\Frame\Reservation.cshtml" />
+    <Content Include="Views\Frame\ReservationByEarth.cshtml" />
+    <Content Include="Views\User\ReservationByEarth.cshtml" />
+    <Content Include="Views\Frame\HotActivity.cshtml" />
+    <Content Include="Views\User\HotActivity.cshtml" />
+    <Content Include="Views\User\SetPassword.cshtml" />
+    <Content Include="Views\Frame\SetPassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

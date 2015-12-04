@@ -27,5 +27,6 @@ namespace Freedom.Models
         public Nullable<int> RoleID { get; set; }
     
         public virtual Userprofile Userprofile { get; set; }
+        public virtual webpages_Roles webpages_Roles { get; set; }
     }
 }

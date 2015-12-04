@@ -4,7 +4,7 @@
 
 .strips {
   min-height: 100vh;
-  text-align: center;
+  text-align: left;
   overflow: hidden;
   color: white;
 }
@@ -338,3 +338,7 @@ h2 {
 p {
   margin: 0 0 16px;
 }
+#introduce
+{
+    padding-left:40%;
+    }

@@ -1,0 +1,93 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>提交表单</title>
+    <link rel="stylesheet" type="text/css" href="/content/css/activitystyles.css">
+
+</head>
+<body>
+    <article class="htmleaf-container">
+        <div class="htmleaf-content">
+            <form action="">
+                <!--  General -->
+                <div class="form-group">
+                    <h2 class="heading">基本信息</h2>
+                    <div class="controls">
+                        <input type="text" id="activity-name" class="floatLabel" name="activity-name">
+                        <label for="activity-name">活动主题</label>
+                    </div>
+                    <div class="controls">
+                        <input type="text" id="activit-time" class="floatLabel" name="activit-time">
+                        <label for="activit-timel">时间</label>
+                    </div>
+                    <div class="controls">
+                        <input type="text" id="activit-spot" class="floatLabel" name="activit-spot">
+                        <label for="activit-spot">地点</label>
+                    </div>
+                </div>
+                <!--  Details -->
+                <div class="form-group">
+                    <h2 class="heading">申请人信息</h2>
+                    <div class="controls">
+                        <input type="tel" id="cell" class="floatLabel" name="cell">
+                        <label for="cell">联系电话</label>
+                    </div>
+                    <div class="controls">
+                        <input type="text" id="activity-wechatorQQ" class="floatLabel" name="activity-wechatorQQ">
+                        <label for="activity-wechatorQQ">微信</label>
+                    </div>
+                    <div class="controls">
+                        <i class="fa fa-sort"></i>
+                        <select class="floatLabel">
+                            <option value="blank"></option>
+                            <option value="1">学术交流</option>
+                            <option value="2">课外活动</option>
+                            <option value="3">志愿活动</option>
+                            <option value="4">爱好培训</option>
+                        </select>
+                        <label for="activityclass">活动类别</label>
+                    </div>
+                </div>
+                <!--  More -->
+                <div class="form-group">
+                    <h2 class="heading">活动描述</h2>
+                    <div class="controls">
+                        <textarea name="EventDescription" class="floatLabel" id="comments"></textarea>
+                        <label for="comments">活动简介：</label>
+                        <button type="submit">提交</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+    </article>
+
+    <script src="/content/js/jquery-2.1.1.min.js"></script>
+    <script>window.jQuery || document.write('<script src="/content/js/jquery-2.1.1.min.js"><\/script>')</script>
+    <script>
+        (function ($) {
+            function floatLabel(inputType) {
+                $(inputType).each(function () {
+                    var $this = $(this);
+                    $this.focus(function () {
+                        $this.next().addClass('active');
+                    });
+                    $this.blur(function () {
+                        if ($this.val() === '' || $this.val() === 'blank') {
+                            $this.next().removeClass();
+                        }
+                    });
+                });
+            }
+            floatLabel('.floatLabel');
+        }(jQuery));
+    </script>
+</body>
+</html>
