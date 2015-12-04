@@ -14,30 +14,18 @@ namespace Freedom.Models
     
     public partial class User
     {
-        public User()
-        {
-            this.Event = new HashSet<Event>();
-            this.Order = new HashSet<Order>();
-            this.Order_Detail = new HashSet<Order_Detail>();
-        }
-    
         public int UserID { get; set; }
-        public string UserPassword { get; set; }
-        public string UserName { get; set; }
         public string UserSex { get; set; }
         public string UserBirthday { get; set; }
-        public string UserPhoto { get; set; }
-        public string UserPhone { get; set; }
-        public string UserEmail { get; set; }
+        public byte[] UserPhoto { get; set; }
         public string College { get; set; }
         public string Major { get; set; }
         public string Grade { get; set; }
-        public int RoleID { get; set; }
+        public string UserPhone { get; set; }
+        public string UserEmail { get; set; }
         public Nullable<int> BreakTimes { get; set; }
+        public Nullable<int> RoleID { get; set; }
     
-        public virtual ICollection<Event> Event { get; set; }
-        public virtual ICollection<Order> Order { get; set; }
-        public virtual ICollection<Order_Detail> Order_Detail { get; set; }
-        public virtual Role Role { get; set; }
+        public virtual Userprofile Userprofile { get; set; }
     }
 }

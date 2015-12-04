@@ -186,43 +186,63 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Filters\InitializeSimpleMembershipAttribute.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
     <Compile Include="Models\Event.cs">
-      <DependentUpon>Freedom.tt</DependentUpon>
+      <DependentUpon>FreeData.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Freedom.Context.cs">
+    <Compile Include="Models\FreeData.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Freedom.Context.tt</DependentUpon>
+      <DependentUpon>FreeData.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Freedom.cs">
+    <Compile Include="Models\FreeData.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Freedom.tt</DependentUpon>
+      <DependentUpon>FreeData.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Freedom.Designer.cs">
+    <Compile Include="Models\FreeData.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>Freedom.edmx</DependentUpon>
+      <DependentUpon>FreeData.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\Membership\InitializeSimpleMembership.cs" />
+    <Compile Include="Models\Membership\Models\BrightMembership.cs" />
+    <Compile Include="Models\Membership\Models\Permission.cs" />
+    <Compile Include="Models\Membership\Models\PermissionsInRoles.cs" />
+    <Compile Include="Models\Membership\Models\Role.cs" />
+    <Compile Include="Models\Membership\Models\UserViewModel.cs" />
+    <Compile Include="Models\Membership\PermissionManager.cs" />
+    <Compile Include="Models\Membership\FreedomMembershipContext.cs" />
+    <Compile Include="Models\Membership\UserPermission.cs" />
     <Compile Include="Models\Order.cs">
-      <DependentUpon>Freedom.tt</DependentUpon>
+      <DependentUpon>FreeData.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Order_Detail.cs">
-      <DependentUpon>Freedom.tt</DependentUpon>
+      <DependentUpon>FreeData.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Place.cs">
-      <DependentUpon>Freedom.tt</DependentUpon>
+      <DependentUpon>FreeData.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\Role.cs">
-      <DependentUpon>Freedom.tt</DependentUpon>
+    <Compile Include="Models\sysdiagrams.cs">
+      <DependentUpon>FreeData.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\User.cs">
-      <DependentUpon>Freedom.tt</DependentUpon>
+      <DependentUpon>FreeData.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\Userprofile.cs">
+      <DependentUpon>FreeData.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\webpages_Membership.cs">
+      <DependentUpon>FreeData.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\webpages_OAuthMembership.cs">
+      <DependentUpon>FreeData.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\webpages_Roles.cs">
+      <DependentUpon>FreeData.tt</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -368,23 +388,6 @@
     <Content Include="Content\themes\base\minified\jquery.ui.theme.min.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <EntityDeploy Include="Models\Freedom.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>Freedom.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Models\Freedom.Context.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Freedom.edmx</DependentUpon>
-      <LastGenOutput>Freedom.Context.cs</LastGenOutput>
-    </Content>
-    <Content Include="Models\Freedom.edmx.diagram">
-      <DependentUpon>Freedom.edmx</DependentUpon>
-    </Content>
-    <Content Include="Models\Freedom.tt">
-      <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>Freedom.edmx</DependentUpon>
-      <LastGenOutput>Freedom.cs</LastGenOutput>
-    </Content>
     <Content Include="Content\assets\bootstrap\css\bootstrap-theme.css.map" />
     <Content Include="Content\assets\bootstrap\css\bootstrap.css.map" />
     <Content Include="Content\assets\bootstrap\fonts\glyphicons-halflings-regular.eot" />
@@ -422,6 +425,23 @@
     <Content Include="Content\assets\font-awesome\scss\_rotated-flipped.scss" />
     <Content Include="Content\assets\font-awesome\scss\_stacked.scss" />
     <Content Include="Content\assets\font-awesome\scss\_variables.scss" />
+    <EntityDeploy Include="Models\FreeData.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>FreeData.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Models\FreeData.Context.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>FreeData.edmx</DependentUpon>
+      <LastGenOutput>FreeData.Context.cs</LastGenOutput>
+    </Content>
+    <Content Include="Models\FreeData.edmx.diagram">
+      <DependentUpon>FreeData.edmx</DependentUpon>
+    </Content>
+    <Content Include="Models\FreeData.tt">
+      <Generator>TextTemplatingFileGenerator</Generator>
+      <DependentUpon>FreeData.edmx</DependentUpon>
+      <LastGenOutput>FreeData.cs</LastGenOutput>
+    </Content>
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
@@ -437,7 +457,9 @@
     <Content Include="Scripts\knockout-2.2.0.debug.js" />
     <Content Include="Scripts\knockout-2.2.0.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
-    <Content Include="Web.config" />
+    <Content Include="Web.config">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </Content>

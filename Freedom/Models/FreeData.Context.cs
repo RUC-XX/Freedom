@@ -29,7 +29,11 @@ namespace Freedom.Models
         public DbSet<Order> Order { get; set; }
         public DbSet<Order_Detail> Order_Detail { get; set; }
         public DbSet<Place> Place { get; set; }
-        public DbSet<Role> Role { get; set; }
+        public DbSet<sysdiagrams> sysdiagrams { get; set; }
         public DbSet<User> User { get; set; }
+        public DbSet<Userprofile> Userprofile { get; set; }
+        public DbSet<webpages_Membership> webpages_Membership { get; set; }
+        public DbSet<webpages_OAuthMembership> webpages_OAuthMembership { get; set; }
+        public DbSet<webpages_Roles> webpages_Roles { get; set; }
     }
 }

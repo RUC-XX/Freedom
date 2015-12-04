@@ -8,7 +8,6 @@ using System.Web.Security;
 using DotNetOpenAuth.AspNet;
 using Microsoft.Web.WebPages.OAuth;
 using WebMatrix.WebData;
-using Freedom.Filters;
 using Freedom.Models;
 
 namespace Freedom.Controllers
@@ -69,17 +68,15 @@ namespace Freedom.Controllers
                 // 尝试注册用户
                 try
                 {
-                   
-                    WebSecurity.CreateUserAndAccount(model.UserName, model.Password);
+
+                    WebSecurity.CreateUserAndAccount(model.UserName,model.Password);
                     User user = new User();
-                    user.UserName = model.UserName;
-                    user.UserPassword = model.Password;
                     user.UserEmail = model.EMail;
                     user.UserPhone = model.PhoneNumber;
+                    user.UserID = WebSecurity.GetUserId(model.UserName);
                     user.RoleID = 1;
                     db.User.Add(user);
-                    db.SaveChanges();
-                    WebSecurity.Login(model.UserName, model.Password);                    
+                    db.SaveChanges();                   
                     return RedirectToAction("Index", "Home");
                 }
                 catch (MembershipCreateUserException e)
@@ -155,9 +152,6 @@ namespace Freedom.Controllers
                     try
                     {
                         changePasswordSucceeded = WebSecurity.ChangePassword(User.Identity.Name, model.OldPassword, model.NewPassword);
-                        User u1 = db.User.SingleOrDefault(e => e.UserName == User.Identity.Name);
-                        u1.UserPassword = model.NewPassword;
-                        db.SaveChanges();
                     }
                     catch (Exception)
                     {

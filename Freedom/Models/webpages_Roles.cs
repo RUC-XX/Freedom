@@ -12,16 +12,16 @@ namespace Freedom.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Role
+    public partial class webpages_Roles
     {
-        public Role()
+        public webpages_Roles()
         {
-            this.User = new HashSet<User>();
+            this.Userprofile = new HashSet<Userprofile>();
         }
     
-        public int RoleID { get; set; }
-        public string RoleType { get; set; }
+        public int RoleId { get; set; }
+        public string RoleName { get; set; }
     
-        public virtual ICollection<User> User { get; set; }
+        public virtual ICollection<Userprofile> Userprofile { get; set; }
     }
 }

@@ -6,12 +6,13 @@ using System.Data.Entity;
 using System.Globalization;
 using System.Web.Security;
 
+
 namespace Freedom.Models
 {
     public class UsersContext : DbContext
     {
         public UsersContext()
-            : base("DefaultConnection")
+            : base("FreedomConnection")
         {
         }
 
@@ -23,7 +24,7 @@ namespace Freedom.Models
     {
         [Key]
         [DatabaseGeneratedAttribute(DatabaseGeneratedOption.Identity)]
-        public int UserId { get; set; }
+        public int UserID { get; set; }
         public string UserName { get; set; }
     }
     public class LocalPasswordModel

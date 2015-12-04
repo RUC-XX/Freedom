@@ -12,18 +12,12 @@ namespace Freedom.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Order_Detail
+    public partial class webpages_OAuthMembership
     {
-        public int OrderID { get; set; }
-        public int PlaceID { get; set; }
-        public System.DateTime UseTime { get; set; }
-        public string EventTheme { get; set; }
-        public string EventDescription { get; set; }
-        public string Condition { get; set; }
-        public int UserID { get; set; }
+        public string Provider { get; set; }
+        public string ProviderUserId { get; set; }
+        public int UserId { get; set; }
     
-        public virtual Order Order { get; set; }
-        public virtual Place Place { get; set; }
         public virtual Userprofile Userprofile { get; set; }
     }
 }

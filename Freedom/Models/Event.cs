@@ -20,6 +20,6 @@ namespace Freedom.Models
         public Nullable<System.DateTime> End { get; set; }
         public string Title { get; set; }
     
-        public virtual User User { get; set; }
+        public virtual Userprofile Userprofile { get; set; }
     }
 }
