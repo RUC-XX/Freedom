@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Freedom.Models.UserEvent
+@{
     Layout = null;
 }
 
@@ -30,15 +31,15 @@
                     <div class="box-body">
                         <!-- the events -->
                         <div id="external-events">
-                            <div class="external-event bg-green">Lunch</div>
-                            <div class="external-event bg-yellow">Go home</div>
-                            <div class="external-event bg-aqua">Do homework</div>
-                            <div class="external-event bg-light-blue">Work on UI design</div>
-                            <div class="external-event bg-red">Sleep tight</div>
+                            <div class="external-event bg-green">吃饭</div>
+                            <div class="external-event bg-yellow">回家</div>
+                            <div class="external-event bg-aqua">做作业</div>
+                            <div class="external-event bg-light-blue">编程序</div>
+                            <div class="external-event bg-red">交论文</div>
                             <div class="checkbox">
                                 <label for="drop-remove">
                                     <input type="checkbox" id="drop-remove">
-                                    remove after drop
+                                    拖动后删除
                                 </label>
                             </div>
                         </div>
@@ -48,7 +49,7 @@
                 <!-- /. box -->
                 <div class="box box-solid">
                     <div class="box-header with-border">
-                        <h3 class="box-title">Create Event</h3>
+                        <h3 class="box-title">创建事件</h3>
                     </div>
                     <div class="box-body">
                         <div class="btn-group" style="width: 100%; margin-bottom: 10px;">
@@ -71,9 +72,9 @@
                         </div>
                         <!-- /btn-group -->
                         <div class="input-group">
-                            <input id="new-event" type="text" class="form-control" placeholder="Event Title">
+                            <input id="new-event" type="text" class="form-control" placeholder="事件名称">
                             <div class="input-group-btn">
-                                <button id="add-new-event" type="button" class="btn btn-primary btn-flat">Add</button>
+                                <button id="add-new-event" type="button" class="btn btn-primary btn-flat">添加</button>
                             </div>
                             <!-- /btn-group -->
                         </div>
@@ -105,20 +106,51 @@
     <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
     <!-- fullCalendar 2.2.5 -->
     <script src="~/Content/js/moment.min.js"></script>
+    <script src="~/Content/js/lang-all.js"></script>
     <script src="/Content/js/fullcalendar.js"></script>
     <!-- Page specific script -->
-    <script type="text/javascript">
+    <script type="text/javascript">      
         $(function () {
+            var event= [];
+            $.ajax({
+                url: "/user/getevents",
+                success: function (data) {
+                    event= data;
+                },
+                async: false
+            });
             $('#calendar').fullCalendar({
                 header: {
                     left: 'prev,next today',
                     center: 'title',
-                    right: 'month,basicWeek,basicDay'
+                    right: 'month,basicWeek,basicDay',
                 },
+                lang:'zh-cn',
                 editable: true,
-                droppable: true, // this allows things to be dropped onto the calendar !!!
-                defaultDate: new Date(),
-                events: "/api/event/",
+                droppable: true, // this allows things to be dropped onto the calendar !!!                
+                events: event,
+                eventClick: function (calEvent, jsEvent, view) {
+                    alert('Event: ' + calEvent.title);
+                    alert('Coordinates: ' + jsEvent.pageX + ',' + jsEvent.pageY);
+                    alert('View: ' + view.name);
+                },
+                eventDrop: function (event, dayDelta, minuteDelta, allDay, revertFunc) {
+                    alert(event.title +event.id+ " was dropped on " + event.start.format());
+                    if (confirm("Are you sure about this change?")) {
+                        var exam = {
+                            start: event.start.format(),
+                            id:event.id
+                        };
+                        $.ajax({
+                            url: "/user/ChangeDate/",
+                            type: "POST",
+                            datatype: 'json',
+                            data: exam,                           
+                        });                        
+                    } else {
+                        revertFunc();
+                    }
+                },
                 drop: function (date, allDay) { // this function is called when something is dropped
 
                     // retrieve the dropped element's stored Event Object
@@ -134,15 +166,25 @@
                     copiedEventObject.borderColor = $(this).css("border-color");
 
                     // render the event on the calendar
-                    // the last `true` argument determines if the event "sticks" (http://arshaw.com/fullcalendar/docs/event_rendering/renderEvent/)
+                    // the last `true` argument determines if the event "sticks" 
                     $('#calendar').fullCalendar('renderEvent', copiedEventObject, true);
 
                     // is the "remove after drop" checkbox checked?
                     if ($('#drop-remove').is(':checked')) {
                         // if so, remove the element from the "Draggable Events" list
                         $(this).remove();
-                    }
-
+                    };                    
+                    var exam = {
+                        title: $.trim($(this).text()),
+                        start: date.format(),
+                        color: $(this).css("background-color")
+                    };
+                    $.ajax({
+                        url: "/user/SaveEvents/",
+                        type: "POST",
+                        datatype:'json',
+                        data: exam
+                    });
                 }
             });
         });
@@ -168,22 +210,11 @@
                         zIndex: 1070,
                         revert: true, // will cause the event to go back to its
                         revertDuration: 0  //  original position after the drag
-                    });
-                    //var exam = {};
-                    //exam["title"] = eventObject.title;
-                    //var json = $.toJSON(exam);
-                    //$.ajax({
-                    //    url: "/user/calender",
-                    //    cache: false,
-                    //    dataType: 'json',
-                    //    contentType: 'application/json; charset=utf-8',
-                    //    type: "POST",
-                    //    data:exam
-                    //})
+                    });      
                 });
             }
             ini_events($('#external-events div.external-event'));
-            /* 以下是添加事件*/
+            /* 以下是添加事件类*/
             var currColor = "#3c8dbc"; //Red by default
             //Color chooser button
             var colorChooser = $("#color-chooser-btn");

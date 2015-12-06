@@ -12,13 +12,16 @@ namespace Freedom.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class Event
+    public partial class UserEvent
     {
-        public int ID { get; set; }
-        public int UserID { get; set; }
-        public Nullable<System.DateTime> Start { get; set; }
-        public Nullable<System.DateTime> End { get; set; }
-        public string Title { get; set; }
+        public int id { get; set; }
+        public Nullable<int> UserID { get; set; }
+        public string title { get; set; }
+        public string start { get; set; }
+        public string end { get; set; }
+        public string color { get; set; }
+        public string url { get; set; }
+        public string textColor { get; set; }
     
         public virtual Userprofile Userprofile { get; set; }
     }

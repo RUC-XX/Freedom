@@ -4,27 +4,27 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="90dabd11f9d248af9dcddc5dccde69bf" Name="Diagram1">
-        <EntityTypeShape EntityType="FreeDataModel.Event" Width="1.5" PointX="5.25" PointY="3.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="FreeDataModel.Order" Width="1.5" PointX="3" PointY="5.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="FreeDataModel.Order_Detail" Width="1.5" PointX="5.25" PointY="6.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="FreeDataModel.Place" Width="1.5" PointX="2.875" PointY="11.625" IsExpanded="true" />
+      <Diagram DiagramId="573354cb2dc84dbba9894220174d6525" Name="Diagram1">
+        <EntityTypeShape EntityType="FreeDataModel.Order" Width="1.5" PointX="0.75" PointY="12.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FreeDataModel.Order_Detail" Width="1.5" PointX="3" PointY="8.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="FreeDataModel.Place" Width="1.5" PointX="0.75" PointY="15.25" IsExpanded="true" />
         <EntityTypeShape EntityType="FreeDataModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="FreeDataModel.User" Width="1.5" PointX="5.25" PointY="9.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="FreeDataModel.Userprofile" Width="1.5" PointX="3" PointY="8.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="FreeDataModel.webpages_Membership" Width="1.5" PointX="5.25" PointY="13.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="FreeDataModel.webpages_OAuthMembership" Width="1.5" PointX="5.25" PointY="17.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="FreeDataModel.webpages_Roles" Width="1.5" PointX="0.75" PointY="8.875" IsExpanded="true" />
-        <AssociationConnector Association="FreeDataModel.FK_Event_UserProfile" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="FreeDataModel.User" Width="1.5" PointX="6" PointY="8.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="FreeDataModel.UserEvent" Width="1.5" PointX="3" PointY="13.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="FreeDataModel.Userprofile" Width="1.5" PointX="0.75" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="FreeDataModel.webpages_Membership" Width="1.5" PointX="3" PointY="16.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="FreeDataModel.webpages_OAuthMembership" Width="1.5" PointX="3" PointY="20.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="FreeDataModel.webpages_Roles" Width="1.5" PointX="1.5" PointY="5" IsExpanded="true" />
         <AssociationConnector Association="FreeDataModel.FK_Order_Detail_Order" ManuallyRouted="false" />
         <AssociationConnector Association="FreeDataModel.FK_Order_Detail_Place" ManuallyRouted="false" />
         <AssociationConnector Association="FreeDataModel.FK_Order_Detail_UserProfile" ManuallyRouted="false" />
         <AssociationConnector Association="FreeDataModel.FK_User_UserProfile" ManuallyRouted="false" />
+        <AssociationConnector Association="FreeDataModel.FK_User_webpages_Roles" ManuallyRouted="false" />
+        <AssociationConnector Association="FreeDataModel.FK_UserEvent_Userprofile" ManuallyRouted="false" />
         <AssociationConnector Association="FreeDataModel.FK_webpages_Membership_UserProfile1" ManuallyRouted="false" />
         <AssociationConnector Association="FreeDataModel.FK_webpages_OAuthMembership_UserProfile" ManuallyRouted="false" />
+        <AssociationConnector Association="FreeDataModel.FK_webpages_Roles_webpages_Roles" ManuallyRouted="false" />
         <AssociationConnector Association="FreeDataModel.webpages_UsersInRoles" ManuallyRouted="false" />
-        <AssociationConnector Association="FreeDataModel.FK_User_webpages_Roles" />
-        <AssociationConnector Association="FreeDataModel.FK_webpages_Roles_webpages_Roles" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -52,6 +52,22 @@ namespace Freedom.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        public ActionResult Lockscreen()
+        {
+           
+
+            return View();
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Lockscreen(LoginModel model)
+        {
+            if (WebSecurity.Login(WebSecurity.CurrentUserName,model.Password))
+            {
+                return RedirectToAction("index", "user");
+            }
+            return View(model);
+        }
         //
         // GET: /Account/Register
 

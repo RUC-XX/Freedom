@@ -192,9 +192,6 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\AccountModels.cs" />
-    <Compile Include="Models\Event.cs">
-      <DependentUpon>FreeData.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\FreeData.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -228,16 +225,13 @@
     <Compile Include="Models\Place.cs">
       <DependentUpon>FreeData.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\sp_helpdiagramdefinition_Result.cs">
-      <DependentUpon>FreeData.tt</DependentUpon>
-    </Compile>
-    <Compile Include="Models\sp_helpdiagrams_Result.cs">
-      <DependentUpon>FreeData.tt</DependentUpon>
-    </Compile>
     <Compile Include="Models\sysdiagrams.cs">
       <DependentUpon>FreeData.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\User.cs">
+      <DependentUpon>FreeData.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\UserEvent.cs">
       <DependentUpon>FreeData.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\Userprofile.cs">
@@ -332,10 +326,12 @@
     <Content Include="Content\js\jQuery-2.1.4.min.js" />
     <Content Include="Content\js\jquery.alert.js" />
     <Content Include="Content\js\jquery.datepicker.js" />
+    <Content Include="Content\js\jquery.fancybox-1.3.4.js" />
     <Content Include="Content\js\jquery.ifrmdailog.js" />
     <Content Include="Content\js\jquery.masonry.min.js" />
     <Content Include="Content\js\jquery.min.js" />
     <Content Include="Content\js\jquery.slimscroll.min.js" />
+    <Content Include="Content\js\lang-all.js" />
     <Content Include="Content\js\moment.min.js" />
     <Content Include="Content\js\respond.min.js" />
     <Content Include="Content\js\waterfall.js" />
@@ -437,6 +433,17 @@
     <Content Include="Content\assets\font-awesome\scss\_rotated-flipped.scss" />
     <Content Include="Content\assets\font-awesome\scss\_stacked.scss" />
     <Content Include="Content\assets\font-awesome\scss\_variables.scss" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\fonts\Ubuntu-Bold.ttf" />
+    <Content Include="Content\fonts\Ubuntu-BoldItalic.ttf" />
+    <Content Include="Content\fonts\Ubuntu-Italic.ttf" />
+    <Content Include="Content\fonts\Ubuntu-Light.ttf" />
+    <Content Include="Content\fonts\Ubuntu-LightItalic.ttf" />
+    <Content Include="Content\fonts\Ubuntu-Medium.ttf" />
+    <Content Include="Content\fonts\Ubuntu-MediumItalic.ttf" />
+    <Content Include="Content\fonts\Ubuntu-Regular.ttf" />
     <EntityDeploy Include="Models\FreeData.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
       <LastGenOutput>FreeData.Designer.cs</LastGenOutput>
@@ -454,17 +461,6 @@
       <DependentUpon>FreeData.edmx</DependentUpon>
       <LastGenOutput>FreeData.cs</LastGenOutput>
     </Content>
-    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="Content\fonts\Ubuntu-Bold.ttf" />
-    <Content Include="Content\fonts\Ubuntu-BoldItalic.ttf" />
-    <Content Include="Content\fonts\Ubuntu-Italic.ttf" />
-    <Content Include="Content\fonts\Ubuntu-Light.ttf" />
-    <Content Include="Content\fonts\Ubuntu-LightItalic.ttf" />
-    <Content Include="Content\fonts\Ubuntu-Medium.ttf" />
-    <Content Include="Content\fonts\Ubuntu-MediumItalic.ttf" />
-    <Content Include="Content\fonts\Ubuntu-Regular.ttf" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
@@ -527,6 +523,7 @@
     <Content Include="Views\User\HotActivity.cshtml" />
     <Content Include="Views\User\SetPassword.cshtml" />
     <Content Include="Views\Frame\SetPassword.cshtml" />
+    <Content Include="Views\Account\Lockscreen.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

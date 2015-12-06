@@ -1,0 +1,67 @@
+﻿@model Freedom.Models.LoginModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>学校资源预约系统</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <!--css.js链接-->
+    <link href="~/Content/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="/Content/css/skin-blue.min.css">
+    <link rel="stylesheet" href="/Content/css/AdminLTE.min.css">
+    <script src="/Content/js/html5shiv.min.js"></script>
+    <script src="/Content/js/respond.min.js"></script>
+    <!--链接结束-->
+</head>
+<body class="hold-transition lockscreen">
+    <!-- Automatic element centering -->
+    <div class="lockscreen-wrapper">
+        <div class="lockscreen-logo">
+            <a href="/home/index"><b>Free</b>dom</a>
+        </div>
+        <!-- User name -->
+        <div class="lockscreen-name">@WebSecurity.CurrentUserName</div>
+        <!-- START LOCK SCREEN ITEM -->
+        <div class="lockscreen-item">
+            <!-- lockscreen image -->
+            <div class="lockscreen-image">
+                <img src="~/Content/images/user2-160x160.jpg" />
+            </div>
+            <!-- /.lockscreen-image -->
+            <!-- lockscreen credentials (contains the form) -->
+            @using (Html.BeginForm("lockscreen", "account", "post", FormMethod.Post, new { @class = "lockscreen-credentials" }))
+            {
+                 @Html.AntiForgeryToken()
+                <div class="input-group">
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control", placeholder = "请输入密码" })
+                    @*<input type="password" class="form-control" placeholder="请输入密码">*@
+                    <div class="input-group-btn">
+                        <button type="submit" class="btn"><i class="fa fa-arrow-right text-muted"></i></button>
+                    </div>
+                </div>
+            }
+            <!-- /.lockscreen credentials -->
+        </div>
+        <!-- /.lockscreen-item -->
+        <div class="text-center">
+            <a href="/home/index">切换用户</a>
+        </div>
+        <div class="lockscreen-footer text-center">
+            Copyright &copy; 2014-2015 All rights reserved
+        </div>
+    </div>
+    <!-- /.center -->
+    <!-- jQuery 2.1.4 -->
+    <script src="/content/js/jQuery-2.1.4.min.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="/content/js/bootstrap.min.js"></script>
+</body>
+</html>
+
