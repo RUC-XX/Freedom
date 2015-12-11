@@ -6,7 +6,6 @@
     <edmx:Diagrams>
       <Diagram DiagramId="573354cb2dc84dbba9894220174d6525" Name="Diagram1">
         <EntityTypeShape EntityType="FreeDataModel.Order" Width="1.5" PointX="0.75" PointY="12.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="FreeDataModel.Order_Detail" Width="1.5" PointX="3" PointY="8.625" IsExpanded="true" />
         <EntityTypeShape EntityType="FreeDataModel.Place" Width="1.5" PointX="0.75" PointY="15.25" IsExpanded="true" />
         <EntityTypeShape EntityType="FreeDataModel.sysdiagrams" Width="1.5" PointX="0.75" PointY="0.75" IsExpanded="true" />
         <EntityTypeShape EntityType="FreeDataModel.User" Width="1.5" PointX="6" PointY="8.375" IsExpanded="true" />
@@ -15,9 +14,6 @@
         <EntityTypeShape EntityType="FreeDataModel.webpages_Membership" Width="1.5" PointX="3" PointY="16.75" IsExpanded="true" />
         <EntityTypeShape EntityType="FreeDataModel.webpages_OAuthMembership" Width="1.5" PointX="3" PointY="20.625" IsExpanded="true" />
         <EntityTypeShape EntityType="FreeDataModel.webpages_Roles" Width="1.5" PointX="1.5" PointY="5" IsExpanded="true" />
-        <AssociationConnector Association="FreeDataModel.FK_Order_Detail_Order" ManuallyRouted="false" />
-        <AssociationConnector Association="FreeDataModel.FK_Order_Detail_Place" ManuallyRouted="false" />
-        <AssociationConnector Association="FreeDataModel.FK_Order_Detail_UserProfile" ManuallyRouted="false" />
         <AssociationConnector Association="FreeDataModel.FK_User_UserProfile" ManuallyRouted="false" />
         <AssociationConnector Association="FreeDataModel.FK_User_webpages_Roles" ManuallyRouted="false" />
         <AssociationConnector Association="FreeDataModel.FK_UserEvent_Userprofile" ManuallyRouted="false" />
@@ -25,6 +21,11 @@
         <AssociationConnector Association="FreeDataModel.FK_webpages_OAuthMembership_UserProfile" ManuallyRouted="false" />
         <AssociationConnector Association="FreeDataModel.FK_webpages_Roles_webpages_Roles" ManuallyRouted="false" />
         <AssociationConnector Association="FreeDataModel.webpages_UsersInRoles" ManuallyRouted="false" />
+        <AssociationConnector Association="FreeDataModel.FK_Order_Userprofile" />
+        <EntityTypeShape EntityType="FreeDataModel.Order_Detail" Width="1.5" PointX="3" PointY="8.375" />
+        <AssociationConnector Association="FreeDataModel.FK_Order_Detail_Order" />
+        <AssociationConnector Association="FreeDataModel.FK_Order_Detail_Place" />
+        <AssociationConnector Association="FreeDataModel.FK_Order_Detail_Userprofile" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

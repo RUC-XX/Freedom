@@ -18,6 +18,7 @@ namespace Freedom.Models
         public int UserID { get; set; }
         public System.DateTime OrderTime { get; set; }
     
+        public virtual Userprofile Userprofile { get; set; }
         public virtual Order_Detail Order_Detail { get; set; }
     }
 }

@@ -19,16 +19,19 @@ namespace Freedom.Models
             this.UserEvent = new HashSet<UserEvent>();
             this.webpages_OAuthMembership = new HashSet<webpages_OAuthMembership>();
             this.webpages_Roles = new HashSet<webpages_Roles>();
+            this.Order = new HashSet<Order>();
+            this.Order_Detail = new HashSet<Order_Detail>();
         }
     
         public int UserID { get; set; }
         public string UserName { get; set; }
     
-        public virtual Order_Detail Order_Detail { get; set; }
         public virtual User User { get; set; }
         public virtual ICollection<UserEvent> UserEvent { get; set; }
         public virtual webpages_Membership webpages_Membership { get; set; }
         public virtual ICollection<webpages_OAuthMembership> webpages_OAuthMembership { get; set; }
         public virtual ICollection<webpages_Roles> webpages_Roles { get; set; }
+        public virtual ICollection<Order> Order { get; set; }
+        public virtual ICollection<Order_Detail> Order_Detail { get; set; }
     }
 }

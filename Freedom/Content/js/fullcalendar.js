@@ -1,4 +1,4 @@
-/*!
+﻿/*!
  * FullCalendar v2.2.5
  * Docs & License: http://arshaw.com/fullcalendar/
  * (c) 2013 Adam Shaw
@@ -56,10 +56,10 @@
 		next: "next",
 		prevYear: "prev year",
 		nextYear: "next year",
-		today: 'today',
-		month: 'month',
-		week: 'week',
-		day: 'day'
+		today: '返回今天',
+		month: '月',
+		week: '周',
+		day: '日'
 	},
 
 	buttonIcons: {
@@ -613,7 +613,7 @@ function smartProperty(obj, name) { // get a camel-cased/namespaced property of 
 /* Date Utilities
 ----------------------------------------------------------------------------------------------------------------------*/
 
-var dayIDs = [ 'sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat' ];
+var dayIDs = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
 var intervalUnits = [ 'year', 'month', 'week', 'day', 'hour', 'minute', 'second', 'millisecond' ];
 
 

@@ -1,0 +1,98 @@
+﻿@model Freedom.Models.Userprofile
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Calender</title>
+    <!--css.js链接-->
+    <link rel="stylesheet" href="/Content/css/bootstrap.min1.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="/Content/css/skin-blue.min.css">
+    <link rel="stylesheet" href="/Content/css/AdminLTE.min.css">
+    <link href="~/Content/css/sweetalert.css" rel="stylesheet" />
+    <!--链接结束-->
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            个人中心
+        </h1>
+        <ol class="breadcrumb">
+            <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
+            <li><a href="#">Examples</a></li>
+            <li class="active">User profile</li>
+        </ol>
+    </section>
+    <!-- Main content -->
+    <section class="content">
+        <div class="row">
+            <div class="col-md-3">
+                <!-- Profile Image -->
+                <div class="box box-primary">
+                    <div class="box-body box-profile">
+                        <img src="~/Content/images/user2-160x160.jpg" class="profile-user-img img-responsive img-circle" />
+                        <h3 class="profile-username text-center">@Model.UserName</h3>
+                        <p class="text-muted text-center">@Model.User.webpages_Roles.RoleName</p>
+                        <ul class="list-group list-group-unbordered">
+                            <li class="list-group-item">
+                                <b>Followers</b> <a class="pull-right">1,322</a>
+                            </li>
+                            <li class="list-group-item">
+                                <b>Following</b> <a class="pull-right">543</a>
+                            </li>
+                            <li class="list-group-item">
+                                <b>Friends</b> <a class="pull-right">13,287</a>
+                            </li>
+                        </ul>
+                        <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+                <!-- About Me Box -->
+                <div class="box box-primary">
+                    <div class="box-header with-border">
+                        <h3 class="box-title">About Me</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body">
+                        <strong><i class="fa fa-book margin-r-5"></i> Education</strong>
+                        <p class="text-muted">
+                            @Model.User.College  @Model.User.Grade              
+                        </p>
+                        <hr>
+                        <strong><i class="fa fa-map-marker margin-r-5"></i> Location</strong>
+                        <p class="text-muted">Malibu, California</p>
+                        <hr>
+                        <strong><i class="fa fa-file-text-o margin-r-5"></i> Notes</strong>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam fermentum enim neque.</p>
+                    </div>
+                    <!-- /.box-body -->
+                </div>
+                <!-- /.box -->
+            </div>
+            <!-- /.col -->
+            <div class="col-md-9"></div>
+            <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
+    <!-- jQuery 2.1.4 -->
+    <script src="/Content/js/jQuery-2.1.4.min.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="/Content/js/bootstrap.min.js"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+    <!-- fullCalendar 2.2.5 -->
+    <script src="~/Content/js/sweetalert.min.js"></script>
+    <!-- Page specific script -->
+</body>
+</html>

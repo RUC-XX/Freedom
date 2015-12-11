@@ -1,0 +1,89 @@
+﻿@model Freedom.Models.UserEvent
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Calender</title>
+    <!--css.js链接-->
+    <link rel="stylesheet" href="/Content/css/bootstrap.min1.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link rel="stylesheet" href="/Content/css/skin-blue.min.css">
+    <link rel="stylesheet" href="/Content/css/AdminLTE.min.css">
+    <link href="~/Content/css/sweetalert.css" rel="stylesheet" />
+    <link href="/Content/css/fullcalendar.min.css" rel="stylesheet" />
+    <link href="/Content/css/fullcalendar.print.css" rel="stylesheet" media="print" />
+    <!--链接结束-->
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+    <!-- Main content -->
+    <section class="content">
+        <div class="row container-fluid">
+        </div>
+        <!-- /.col -->
+        <div>
+            <div class="box box-primary">
+                <div class="box-body no-padding">
+                    <!-- THE CALENDAR -->
+                    <div id="calendar"></div>
+                </div>
+                <!-- /.box-body -->
+            </div>
+            <!-- /. box -->
+        </div>
+        <!-- /.col -->
+        </div>
+        <!-- /.row -->
+    </section>
+    <!-- /.content -->
+    <!-- jQuery 2.1.4 -->
+    <script src="/Content/js/jQuery-2.1.4.min.js"></script>
+    <!-- Bootstrap 3.3.5 -->
+    <script src="/Content/js/bootstrap.min.js"></script>
+    <!-- jQuery UI 1.11.4 -->
+    <script src="https://code.jquery.com/ui/1.11.4/jquery-ui.min.js"></script>
+    <!-- fullCalendar 2.2.5 -->
+    <script src="~/Content/js/sweetalert.min.js"></script>
+    <script src="~/Content/js/moment.min.js"></script>
+    <script src="/Content/js/fullcalendar.js"></script>
+    <script src="~/Content/js/lang-all.js"></script>
+    <!-- Page specific script -->
+    <script type="text/javascript">
+        $(function () {
+            var event = [];
+            $.ajax({
+                url: "/order/date",
+                success: function (data) {
+                    event = data;
+                },
+                async: false
+            });
+            $('#calendar').fullCalendar({
+                header: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'month,agendaWeek,agendaDay',
+                },
+                lang: 'zh-cn',
+                editable: false,
+                droppable: false, // this allows things to be dropped onto the calendar !!!
+                events: event,
+                dayClick: function (date, allDay, jsEvent, view) {
+                    alert(date.format("YYYY-MM-DD"));
+                    var url = date.format("YYYY-MM-DD");
+                    var exam = {
+                        UseDate: url
+                    };
+                    $.post('@Url.Action("setorder","order")',exam);
+                    window.location.href ="/order/order";
+                }
+            });
+        });
+    </script>
+</body>
+</html>

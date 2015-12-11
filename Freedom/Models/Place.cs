@@ -24,7 +24,7 @@ namespace Freedom.Models
         public string PlaceNumber { get; set; }
         public string PlaceName { get; set; }
         public Nullable<int> PlaceSize { get; set; }
-        public Nullable<int> Price { get; set; }
+        public string AreaName { get; set; }
     
         public virtual ICollection<Order_Detail> Order_Detail { get; set; }
     }

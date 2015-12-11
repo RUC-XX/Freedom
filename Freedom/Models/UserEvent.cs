@@ -22,6 +22,7 @@ namespace Freedom.Models
         public string color { get; set; }
         public string url { get; set; }
         public string textColor { get; set; }
+        public Nullable<bool> allDay { get; set; }
     
         public virtual Userprofile Userprofile { get; set; }
     }

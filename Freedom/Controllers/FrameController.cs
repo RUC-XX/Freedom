@@ -17,7 +17,10 @@ namespace Freedom.Controllers
         // GET: /Frame/
         public ActionResult Index()
         {
-            return View();
+            var users = (from u in db.Userprofile
+                         where u.UserID == WebSecurity.CurrentUserId
+                         select u).First();
+            return View(users);
         }
         public ActionResult Info()
         {
@@ -26,7 +29,7 @@ namespace Freedom.Controllers
                         where u.UserName == username
                         select u).First();
             var order = (from u in db.Order_Detail
-                         where u.UserID == user.UserID
+                         where u.AdminID == user.UserID
                          select u);
             ViewData["order"] = order;
             return View(user);
@@ -39,6 +42,7 @@ namespace Freedom.Controllers
         {
             return View();
         }
+
         public ActionResult ReservationByEarth()
         {
             return View();

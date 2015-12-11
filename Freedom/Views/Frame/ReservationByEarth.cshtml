@@ -1,106 +1,136 @@
 ﻿@{
     Layout = null;
 }
-
 <!DOCTYPE html>
-<html>
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="utf-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>地图</title>
-    <style>
+    <style type="text/css">
         body {
-            margin: 0;
-            font: 13px/1.5 "Microsoft YaHei", "Helvetica Neue", "Sans-Serif";
-            min-height: 960px;
-            min-width: 600px;
+            font-size: 13px;
+            margin: 0px;
         }
-
-        .my-map {
-            margin: 0 auto;
-            width: 600px;
+        #container {
+            width:80%;
             height: 600px;
+            float:left;
+        }
+    </style> 
+    <!--引用百度地图API-->
+    <script type="text/javascript" src="http://api.map.baidu.com/api?v=2.0&ak=p2ZHL8xk5fk0Hycy7e9cjlYN"></script>
+</head>
+
+<body>
+    <!--地图容器-->  
+    <div style="margin:5px">
+    <input type="text" id="input" size="30" style="width:300px;" />
+    <input type="button" onclick="searchMap();" value="搜索" />
+    </div>
+    <div id="container"></div>
+    <div id="results"style="border: 1px; width: 20%; min-height: 600px; left: 80%; float: right"></div>
+    <script type="text/javascript">
+        //创建和初始化地图函数：
+        function initMap() {
+            createMap();//创建地图
+            setMapEvent();//设置地图事件
+            addMapControl();//向地图添加控件
+            addMapOverlay();//向地图添加覆盖物
+        }
+        function createMap() {
+            map = new BMap.Map("container");
+            map.centerAndZoom(new BMap.Point(116.320965, 39.974709), 18);
+        }
+        function setMapEvent() {
+            map.enableScrollWheelZoom();
+            map.enableKeyboard();
+            map.enableDragging();
+            map.enableDoubleClickZoom()
+        }
+        function addClickHandler(target, window) {
+            target.addEventListener("click", function () {
+                target.openInfoWindow(window);
+            });
+        }
+        function addMapOverlay() {
+            var marker = [
+              { content: "", title: "教学三楼", imageOffset: { width: -46, height: -21 }, position: { lat: 39.974633, lng: 116.319842 } }
+            ];
+        }
+        //向地图添加控件
+        function addMapControl() {
+            var scaleControl = new BMap.ScaleControl({ anchor: BMAP_ANCHOR_BOTTOM_LEFT });
+            scaleControl.setUnit(BMAP_UNIT_IMPERIAL);
+            map.addControl(scaleControl);
+            var navControl = new BMap.NavigationControl({ anchor: BMAP_ANCHOR_TOP_LEFT, type: 0 });
+            map.addControl(navControl);
+            var overviewControl = new BMap.OverviewMapControl({ anchor: BMAP_ANCHOR_BOTTOM_RIGHT, isOpen: false });
+            map.addControl(overviewControl);
+        }
+        function searchMap() {
+            var area = document.getElementById("input").value; //得到地区
+            var local = new BMap.LocalSearch(map, 
+                {renderOptions: { map: map, autoViewport: true, panel: "results" },pageCapacity: 8
+            });
+            local.search(area);
+        }
+        var map;
+        initMap();
+        //var mapStyle = { style: "grayscale" }
+        //map.setMapStyle(mapStyle);
+        // 百度地图API功能
+        function G(id) {
+            return document.getElementById(id);
+        }
+        var ac = new BMap.Autocomplete(    //建立一个自动完成的对象
+		{
+		    "input": "input",
+		    "location": map
+		});
+        ac.addEventListener("onhighlight", function (e) {  //鼠标放在下拉列表上的事件
+            var str = "";
+            var _value = e.fromitem.value;
+            var value = "";
+            if (e.fromitem.index > -1) {
+                value = _value.province + _value.city + _value.district + _value.street + _value.business;
+            }
+            str = "FromItem<br />index = " + e.fromitem.index + "<br />value = " + value;
+
+            value = "";
+            if (e.toitem.index > -1) {
+                _value = e.toitem.value;
+                value = _value.province + _value.city + _value.district + _value.street + _value.business;
+            }
+            str += "<br />ToItem<br />index = " + e.toitem.index + "<br />value = " + value;
+            G("searchResultPanel").innerHTML = str;
+        });
+        var myValue;
+        ac.addEventListener("onconfirm", function (e) {    //鼠标点击下拉列表后的事件
+            var _value = e.item.value;
+            myValue = _value.province + _value.city + _value.district + _value.street + _value.business;
+            G("searchResultPanel").innerHTML = "onconfirm<br />index = " + e.item.index + "<br />myValue = " + myValue;
+
+            setPlace();
+        });
+        function setPlace() {
+            map.clearOverlays();    //清除地图上所有覆盖物
+            function myFun() {
+                var pp = local.getResults().getPoi(0).point;    //获取第一个智能搜索的结果
+                map.centerAndZoom(pp, 18);
+                map.addOverlay(new BMap.Marker(pp));    //添加标注
+            }
+            var local = new BMap.LocalSearch(map, { //智能搜索
+                onSearchComplete: myFun
+            });
+            local.search(myValue);
+        }
+        map.addOverlay(marker);              // 将标注添加到地图中
+        marker.addEventListener("click", getAttr);
+        function getAttr() {
+            var p = marker.getPosition();       //获取marker的位置
+            alert("marker的位置是" + p.lng + "," + p.lat);
         }
 
-            .my-map .icon {
-                background: url(http://lbs.amap.com/console/public/show/marker.png) no-repeat;
-            }
-
-            .my-map .icon-cir {
-                height: 31px;
-                width: 28px;
-            }
-
-            .my-map .icon-cir-red {
-                background-position: -11px -5px;
-            }
-    </style>
-</head>
-<body>
-    <div id="wrap" class="my-map">
-        <div id="mapContainer"></div>
-
-    </div>
-    <script src="http://webapi.amap.com/maps?v=1.2&key=8325164e247e15eea68b59e89200988b"></script>
-    <script>
-        !function () {
-            var infoWindow, map, level = 17,
-                center = { lng: 116.314273, lat: 39.968989 },
-                features = [{ type: "Marker", name: "教学二楼", desc: "", color: "red", icon: "cir", offset: { x: -9, y: -31 }, lnglat: { lng: 116.314938, lat: 39.968635 } },
-                    { type: "Marker", name: "教学一楼", desc: "", color: "red", icon: "cir", offset: { x: -9, y: -31 }, lnglat: { lng: 116.316708, lat: 39.968742 } },
-                    { type: "Marker", name: "教学三楼", desc: "", color: "red", icon: "cir", offset: { x: -9, y: -31 }, lnglat: { lng: 116.313339, lat: 39.968602 } }];
-
-            function loadFeatures() {
-                for (var feature, data, i = 0, len = features.length, j, jl, path; i < len; i++) {
-                    data = features[i];
-                    switch (data.type) {
-                        case "Marker":
-                            feature = new AMap.Marker({
-                                map: map, position: new AMap.LngLat(data.lnglat.lng, data.lnglat.lat),
-                                zIndex: 3, extData: data, offset: new AMap.Pixel(data.offset.x, data.offset.y), title: data.name,
-                                content: '<div class="icon icon-' + data.icon + ' icon-' + data.icon + '-' + data.color + '"></div>'
-                            });
-                            break;
-                        case "Polyline":
-                            for (j = 0, jl = data.lnglat.length, path = []; j < jl; j++) {
-                                path.push(new AMap.LngLat(data.lnglat[j].lng, data.lnglat[j].lat));
-                            }
-                            feature = new AMap.Polyline({
-                                map: map, path: path, extData: data, zIndex: 2,
-                                strokeWeight: data.strokeWeight, strokeColor: data.strokeColor, strokeOpacity: data.strokeOpacity
-                            });
-                            break;
-                        case "Polygon":
-                            for (j = 0, jl = data.lnglat.length, path = []; j < jl; j++) {
-                                path.push(new AMap.LngLat(data.lnglat[j].lng, data.lnglat[j].lat));
-                            }
-                            feature = new AMap.Polygon({
-                                map: map, path: path, extData: data, zIndex: 1,
-                                strokeWeight: data.strokeWeight, strokeColor: data.strokeColor, strokeOpacity: data.strokeOpacity,
-                                fillColor: data.fillColor, fillOpacity: data.fillOpacity
-                            });
-                            break;
-                        default: feature = null;
-                    }
-                    if (feature) { AMap.event.addListener(feature, "click", mapFeatureClick); }
-                }
-            }
-
-            function mapFeatureClick(e) {
-                if (!infoWindow) { infoWindow = new AMap.InfoWindow({ autoMove: true }); }
-                var extData = e.target.getExtData();
-                infoWindow.setContent("<h5>" + extData.name + "</h5><div>" + extData.desc + "</div>");
-                infoWindow.open(map, e.lnglat);
-            }
-
-            map = new AMap.Map("mapContainer", { center: new AMap.LngLat(center.lng, center.lat), level: level });
-            new AMap.Buildings({ map: map, zIndex: 2 });
-            loadFeatures();
-            map.plugin(["AMap.ToolBar", "AMap.OverView", "AMap.Scale"], function () {
-                map.addControl(new AMap.ToolBar);
-                map.addControl(new AMap.OverView({ isOpen: true }));
-                map.addControl(new AMap.Scale);
-            });
-        }();
     </script>
 </body>
 </html>

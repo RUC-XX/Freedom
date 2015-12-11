@@ -17,13 +17,17 @@
           <Key>
             <PropertyRef Name="OrderID" />
           </Key>
-          <Property Name="OrderID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="OrderID" Type="int" Nullable="false" />
           <Property Name="PlaceID" Type="int" Nullable="false" />
-          <Property Name="UseTime" Type="datetime" Nullable="false" />
+          <Property Name="AdminID" Type="int" Nullable="false" />
+          <Property Name="start" Type="nvarchar" MaxLength="50" />
+          <Property Name="end" Type="nvarchar" MaxLength="50" />
+          <Property Name="telphone" Type="nvarchar" MaxLength="50" />
+          <Property Name="WeChatNumber" Type="nvarchar" MaxLength="50" />
           <Property Name="EventTheme" Type="nvarchar" MaxLength="30" />
           <Property Name="EventDescription" Type="nvarchar" MaxLength="255" />
           <Property Name="Condition" Type="nvarchar" MaxLength="10" Nullable="false" />
-          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="UseDate" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Place">
           <Key>
@@ -34,7 +38,7 @@
           <Property Name="PlaceNumber" Type="nvarchar" MaxLength="10" Nullable="false" />
           <Property Name="PlaceName" Type="nvarchar" MaxLength="20" />
           <Property Name="PlaceSize" Type="int" />
-          <Property Name="Price" Type="int" />
+          <Property Name="AreaName" Type="nvarchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -74,6 +78,7 @@
           <Property Name="color" Type="nvarchar" MaxLength="50" />
           <Property Name="textColor" Type="nvarchar" MaxLength="50" />
           <Property Name="url" Type="nvarchar" MaxLength="50" />
+          <Property Name="allDay" Type="bit" />
         </EntityType>
         <EntityType Name="Userprofile">
           <Key>
@@ -146,15 +151,27 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Order_Detail_UserProfile">
+        <Association Name="FK_Order_Detail_Userprofile">
           <End Role="Userprofile" Type="Self.Userprofile" Multiplicity="1" />
-          <End Role="Order_Detail" Type="Self.Order_Detail" Multiplicity="0..1" />
+          <End Role="Order_Detail" Type="Self.Order_Detail" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="Userprofile">
               <PropertyRef Name="UserID" />
             </Principal>
             <Dependent Role="Order_Detail">
-              <PropertyRef Name="OrderID" />
+              <PropertyRef Name="AdminID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Userprofile">
+          <End Role="Userprofile" Type="Self.Userprofile" Multiplicity="1" />
+          <End Role="Order" Type="Self.Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Userprofile">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="UserID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -274,9 +291,13 @@
             <End Role="Place" EntitySet="Place" />
             <End Role="Order_Detail" EntitySet="Order_Detail" />
           </AssociationSet>
-          <AssociationSet Name="FK_Order_Detail_UserProfile" Association="Self.FK_Order_Detail_UserProfile">
+          <AssociationSet Name="FK_Order_Detail_Userprofile" Association="Self.FK_Order_Detail_Userprofile">
             <End Role="Userprofile" EntitySet="Userprofile" />
             <End Role="Order_Detail" EntitySet="Order_Detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Userprofile" Association="Self.FK_Order_Userprofile">
+            <End Role="Userprofile" EntitySet="Userprofile" />
+            <End Role="Order" EntitySet="Order" />
           </AssociationSet>
           <AssociationSet Name="fk_RoleId" Association="Self.fk_RoleId">
             <End Role="webpages_Roles" EntitySet="webpages_Roles" />
@@ -322,22 +343,8 @@
           <Property Name="OrderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserID" Type="Int32" Nullable="false" />
           <Property Name="OrderTime" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Order_Detail" Relationship="Self.FK_Order_Detail_Order" FromRole="Order" ToRole="Order_Detail" />
-        </EntityType>
-        <EntityType Name="Order_Detail">
-          <Key>
-            <PropertyRef Name="OrderID" />
-          </Key>
-          <Property Name="OrderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="PlaceID" Type="Int32" Nullable="false" />
-          <Property Name="UseTime" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="EventTheme" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
-          <Property Name="EventDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
-          <Property Name="Condition" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="UserID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Order" Relationship="Self.FK_Order_Detail_Order" FromRole="Order_Detail" ToRole="Order" />
-          <NavigationProperty Name="Place" Relationship="Self.FK_Order_Detail_Place" FromRole="Order_Detail" ToRole="Place" />
-          <NavigationProperty Name="Userprofile" Relationship="Self.FK_Order_Detail_UserProfile" FromRole="Order_Detail" ToRole="Userprofile" />
+          <NavigationProperty Name="Userprofile" Relationship="FreeDataModel.FK_Order_Userprofile" FromRole="Order" ToRole="Userprofile" />
+          <NavigationProperty Name="Order_Detail" Relationship="FreeDataModel.FK_Order_Detail_Order" FromRole="Order" ToRole="Order_Detail" />
         </EntityType>
         <EntityType Name="Place">
           <Key>
@@ -348,8 +355,8 @@
           <Property Name="PlaceNumber" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="PlaceName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
           <Property Name="PlaceSize" Type="Int32" />
-          <Property Name="Price" Type="Int32" />
-          <NavigationProperty Name="Order_Detail" Relationship="Self.FK_Order_Detail_Place" FromRole="Place" ToRole="Order_Detail" />
+          <Property Name="AreaName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Order_Detail" Relationship="FreeDataModel.FK_Order_Detail_Place" FromRole="Place" ToRole="Order_Detail" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -392,6 +399,7 @@
           <Property Name="url" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
           <NavigationProperty Name="Userprofile" Relationship="Self.FK_UserEvent_Userprofile" FromRole="UserEvent" ToRole="Userprofile" />
           <Property Name="textColor" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="allDay" Type="Boolean" />
         </EntityType>
         <EntityType Name="Userprofile">
           <Key>
@@ -399,12 +407,13 @@
           </Key>
           <Property Name="UserID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="UserName" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
-          <NavigationProperty Name="Order_Detail" Relationship="Self.FK_Order_Detail_UserProfile" FromRole="Userprofile" ToRole="Order_Detail" />
           <NavigationProperty Name="User" Relationship="Self.FK_User_UserProfile" FromRole="Userprofile" ToRole="User" />
           <NavigationProperty Name="UserEvent" Relationship="Self.FK_UserEvent_Userprofile" FromRole="Userprofile" ToRole="UserEvent" />
           <NavigationProperty Name="webpages_Membership" Relationship="Self.FK_webpages_Membership_UserProfile1" FromRole="Userprofile" ToRole="webpages_Membership" />
           <NavigationProperty Name="webpages_OAuthMembership" Relationship="Self.FK_webpages_OAuthMembership_UserProfile" FromRole="Userprofile" ToRole="webpages_OAuthMembership" />
           <NavigationProperty Name="webpages_Roles" Relationship="Self.webpages_UsersInRoles" FromRole="Userprofile" ToRole="webpages_Roles" />
+          <NavigationProperty Name="Order" Relationship="FreeDataModel.FK_Order_Userprofile" FromRole="Userprofile" ToRole="Order" />
+          <NavigationProperty Name="Order_Detail" Relationship="FreeDataModel.FK_Order_Detail_Userprofile" FromRole="Userprofile" ToRole="Order_Detail" />
         </EntityType>
         <EntityType Name="webpages_Membership">
           <Key>
@@ -444,42 +453,6 @@
           <NavigationProperty Name="webpages_Roles2" Relationship="Self.FK_webpages_Roles_webpages_Roles" FromRole="webpages_Roles1" ToRole="webpages_Roles" />
           <NavigationProperty Name="Userprofile" Relationship="Self.webpages_UsersInRoles" FromRole="webpages_Roles" ToRole="Userprofile" />
         </EntityType>
-        <Association Name="FK_Order_Detail_Order">
-          <End Role="Order" Type="Self.Order" Multiplicity="1" />
-          <End Role="Order_Detail" Type="Self.Order_Detail" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Order">
-              <PropertyRef Name="OrderID" />
-            </Principal>
-            <Dependent Role="Order_Detail">
-              <PropertyRef Name="OrderID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Order_Detail_Place">
-          <End Role="Place" Type="Self.Place" Multiplicity="1" />
-          <End Role="Order_Detail" Type="Self.Order_Detail" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Place">
-              <PropertyRef Name="PlaceID" />
-            </Principal>
-            <Dependent Role="Order_Detail">
-              <PropertyRef Name="PlaceID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Order_Detail_UserProfile">
-          <End Role="Userprofile" Type="Self.Userprofile" Multiplicity="1" />
-          <End Role="Order_Detail" Type="Self.Order_Detail" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="Userprofile">
-              <PropertyRef Name="UserID" />
-            </Principal>
-            <Dependent Role="Order_Detail">
-              <PropertyRef Name="OrderID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_User_UserProfile">
           <End Role="Userprofile" Type="Self.Userprofile" Multiplicity="1" />
           <End Role="User" Type="Self.User" Multiplicity="0..1" />
@@ -558,7 +531,6 @@
         </Association>
         <EntityContainer Name="FreeDataEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="Order" EntityType="Self.Order" />
-          <EntitySet Name="Order_Detail" EntityType="Self.Order_Detail" />
           <EntitySet Name="Place" EntityType="Self.Place" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="User" EntityType="Self.User" />
@@ -567,18 +539,6 @@
           <EntitySet Name="webpages_Membership" EntityType="Self.webpages_Membership" />
           <EntitySet Name="webpages_OAuthMembership" EntityType="Self.webpages_OAuthMembership" />
           <EntitySet Name="webpages_Roles" EntityType="Self.webpages_Roles" />
-          <AssociationSet Name="FK_Order_Detail_Order" Association="Self.FK_Order_Detail_Order">
-            <End Role="Order" EntitySet="Order" />
-            <End Role="Order_Detail" EntitySet="Order_Detail" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Order_Detail_Place" Association="Self.FK_Order_Detail_Place">
-            <End Role="Place" EntitySet="Place" />
-            <End Role="Order_Detail" EntitySet="Order_Detail" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Order_Detail_UserProfile" Association="Self.FK_Order_Detail_UserProfile">
-            <End Role="Userprofile" EntitySet="Userprofile" />
-            <End Role="Order_Detail" EntitySet="Order_Detail" />
-          </AssociationSet>
           <AssociationSet Name="FK_User_UserProfile" Association="Self.FK_User_UserProfile">
             <End Role="Userprofile" EntitySet="Userprofile" />
             <End Role="User" EntitySet="User" />
@@ -607,7 +567,91 @@
             <End Role="webpages_Roles" EntitySet="webpages_Roles" />
             <End Role="Userprofile" EntitySet="Userprofile" />
           </AssociationSet>
+          <AssociationSet Name="FK_Order_Userprofile" Association="FreeDataModel.FK_Order_Userprofile">
+            <End Role="Userprofile" EntitySet="Userprofile" />
+            <End Role="Order" EntitySet="Order" />
+          </AssociationSet>
+          <EntitySet Name="Order_Detail" EntityType="FreeDataModel.Order_Detail" />
+          <AssociationSet Name="FK_Order_Detail_Order" Association="FreeDataModel.FK_Order_Detail_Order">
+            <End Role="Order" EntitySet="Order" />
+            <End Role="Order_Detail" EntitySet="Order_Detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Detail_Place" Association="FreeDataModel.FK_Order_Detail_Place">
+            <End Role="Place" EntitySet="Place" />
+            <End Role="Order_Detail" EntitySet="Order_Detail" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Order_Detail_Userprofile" Association="FreeDataModel.FK_Order_Detail_Userprofile">
+            <End Role="Userprofile" EntitySet="Userprofile" />
+            <End Role="Order_Detail" EntitySet="Order_Detail" />
+          </AssociationSet>
         </EntityContainer>
+        <Association Name="FK_Order_Userprofile">
+          <End Type="FreeDataModel.Userprofile" Role="Userprofile" Multiplicity="1" />
+          <End Type="FreeDataModel.Order" Role="Order" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Userprofile">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Order">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Order_Detail">
+          <Key>
+            <PropertyRef Name="OrderID" />
+          </Key>
+          <Property Name="OrderID" Type="Int32" Nullable="false" />
+          <Property Name="PlaceID" Type="Int32" Nullable="false" />
+          <Property Name="AdminID" Type="Int32" Nullable="false" />
+          <Property Name="start" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="end" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="telphone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="WeChatNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="EventTheme" Type="String" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="EventDescription" Type="String" MaxLength="255" FixedLength="false" Unicode="true" />
+          <Property Name="Condition" Type="String" Nullable="false" MaxLength="10" FixedLength="false" Unicode="true" />
+          <Property Name="UseDate" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Order" Relationship="FreeDataModel.FK_Order_Detail_Order" FromRole="Order_Detail" ToRole="Order" />
+          <NavigationProperty Name="Place" Relationship="FreeDataModel.FK_Order_Detail_Place" FromRole="Order_Detail" ToRole="Place" />
+          <NavigationProperty Name="Userprofile" Relationship="FreeDataModel.FK_Order_Detail_Userprofile" FromRole="Order_Detail" ToRole="Userprofile" />
+        </EntityType>
+        <Association Name="FK_Order_Detail_Order">
+          <End Type="FreeDataModel.Order" Role="Order" Multiplicity="1" />
+          <End Type="FreeDataModel.Order_Detail" Role="Order_Detail" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Order">
+              <PropertyRef Name="OrderID" />
+            </Principal>
+            <Dependent Role="Order_Detail">
+              <PropertyRef Name="OrderID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Detail_Place">
+          <End Type="FreeDataModel.Place" Role="Place" Multiplicity="1" />
+          <End Type="FreeDataModel.Order_Detail" Role="Order_Detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Place">
+              <PropertyRef Name="PlaceID" />
+            </Principal>
+            <Dependent Role="Order_Detail">
+              <PropertyRef Name="PlaceID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Order_Detail_Userprofile">
+          <End Type="FreeDataModel.Userprofile" Role="Userprofile" Multiplicity="1" />
+          <End Type="FreeDataModel.Order_Detail" Role="Order_Detail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Userprofile">
+              <PropertyRef Name="UserID" />
+            </Principal>
+            <Dependent Role="Order_Detail">
+              <PropertyRef Name="AdminID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -623,28 +667,15 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Order_Detail">
-            <EntityTypeMapping TypeName="FreeDataModel.Order_Detail">
-              <MappingFragment StoreEntitySet="Order_Detail">
-                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
-                <ScalarProperty Name="PlaceID" ColumnName="PlaceID" />
-                <ScalarProperty Name="UseTime" ColumnName="UseTime" />
-                <ScalarProperty Name="EventTheme" ColumnName="EventTheme" />
-                <ScalarProperty Name="EventDescription" ColumnName="EventDescription" />
-                <ScalarProperty Name="Condition" ColumnName="Condition" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="Place">
             <EntityTypeMapping TypeName="FreeDataModel.Place">
               <MappingFragment StoreEntitySet="Place">
+                <ScalarProperty Name="AreaName" ColumnName="AreaName" />
                 <ScalarProperty Name="PlaceID" ColumnName="PlaceID" />
                 <ScalarProperty Name="AreaID" ColumnName="AreaID" />
                 <ScalarProperty Name="PlaceNumber" ColumnName="PlaceNumber" />
                 <ScalarProperty Name="PlaceName" ColumnName="PlaceName" />
                 <ScalarProperty Name="PlaceSize" ColumnName="PlaceSize" />
-                <ScalarProperty Name="Price" ColumnName="Price" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -679,6 +710,7 @@
           <EntitySetMapping Name="UserEvent">
             <EntityTypeMapping TypeName="FreeDataModel.UserEvent">
               <MappingFragment StoreEntitySet="UserEvent">
+                <ScalarProperty Name="allDay" ColumnName="allDay" />
                 <ScalarProperty Name="textColor" ColumnName="textColor" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="UserID" ColumnName="UserID" />
@@ -740,6 +772,23 @@
               <ScalarProperty Name="UserID" ColumnName="UserId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="Order_Detail">
+            <EntityTypeMapping TypeName="FreeDataModel.Order_Detail">
+              <MappingFragment StoreEntitySet="Order_Detail">
+                <ScalarProperty Name="UseDate" ColumnName="UseDate" />
+                <ScalarProperty Name="Condition" ColumnName="Condition" />
+                <ScalarProperty Name="EventDescription" ColumnName="EventDescription" />
+                <ScalarProperty Name="EventTheme" ColumnName="EventTheme" />
+                <ScalarProperty Name="WeChatNumber" ColumnName="WeChatNumber" />
+                <ScalarProperty Name="telphone" ColumnName="telphone" />
+                <ScalarProperty Name="end" ColumnName="end" />
+                <ScalarProperty Name="start" ColumnName="start" />
+                <ScalarProperty Name="AdminID" ColumnName="AdminID" />
+                <ScalarProperty Name="PlaceID" ColumnName="PlaceID" />
+                <ScalarProperty Name="OrderID" ColumnName="OrderID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

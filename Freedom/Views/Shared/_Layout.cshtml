@@ -53,7 +53,7 @@
                                     <img src="/Content/images/user2-160x160.jpg" class="img-circle" alt="User Image">
 
                                     <p>
-                                        @Session["User"] - @Session["role"]
+                                        @WebSecurity.CurrentUserName - @Session["role"]
                                         <small>@DateTime.Now</small>
                                     </p>
                                 </li>

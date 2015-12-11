@@ -1,93 +1,252 @@
 ﻿@{
     Layout = null;
 }
-
 <!DOCTYPE html>
-<html lang="zh">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>提交表单</title>
-    <link rel="stylesheet" type="text/css" href="/content/css/activitystyles.css">
-
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>筛选</title>
+    <script type="text/javascript" src="http://libs.useso.com/js/jquery/1.7.2/jquery.min.js"></script>
+    <link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+    <link href="~/Content/css/style.css" rel="stylesheet" />
+    <link href="~/Content/css/clean.css" rel="stylesheet" />
+    <script src="~/Content/js/jquery.columns.min.js"></script>
 </head>
 <body>
-    <article class="htmleaf-container">
-        <div class="htmleaf-content">
-            <form action="">
-                <!--  General -->
-                <div class="form-group">
-                    <h2 class="heading">基本信息</h2>
-                    <div class="controls">
-                        <input type="text" id="activity-name" class="floatLabel" name="activity-name">
-                        <label for="activity-name">活动主题</label>
-                    </div>
-                    <div class="controls">
-                        <input type="text" id="activit-time" class="floatLabel" name="activit-time">
-                        <label for="activit-timel">时间</label>
-                    </div>
-                    <div class="controls">
-                        <input type="text" id="activit-spot" class="floatLabel" name="activit-spot">
-                        <label for="activit-spot">地点</label>
-                    </div>
+    <div class="container-fluid">
+        <h2 class="text-center">场地预约</h2>
+        <div style="clear:both"></div>
+        <ul class="select">
+            <li class="select-list">
+                <dl id="select1">
+                    <dt>地点：</dt>
+                    <dd class="select-all selected"><a href="#">不限</a></dd>
+                    <dd><a href="#">明德楼</a></dd>
+                    <dd><a href="#">公共教学一楼</a></dd>
+                    <dd><a href="#">公共教学二楼</a></dd>
+                    <dd><a href="#">公共教学三楼</a></dd>
+                    <dd><a href="#">公共教学四楼</a></dd>
+                </dl>
+            </li>
+            <li class="select-list">
+                <dl id="select2">
+                    <dt>人数：</dt>
+                    <dd class="select-all selected"><a href="#">不限</a></dd>
+                    <dd><a href="#">30</a></dd>
+                    <dd><a href="#">50</a></dd>
+                    <dd><a href="#">100</a></dd>
+                    <dd><a href="#">200</a></dd>
+                    <dd><a href="#">300</a></dd>
+                </dl>
+            </li>
+            <li class="select-result">
+                <dl>
+                    <dt>已选条件：</dt>
+                    <dd class="select-no">暂时没有选择过滤条件</dd>
+                </dl>
+            </li>
+        </ul>
+       </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <div id="columns"></div>
                 </div>
-                <!--  Details -->
-                <div class="form-group">
-                    <h2 class="heading">申请人信息</h2>
-                    <div class="controls">
-                        <input type="tel" id="cell" class="floatLabel" name="cell">
-                        <label for="cell">联系电话</label>
-                    </div>
-                    <div class="controls">
-                        <input type="text" id="activity-wechatorQQ" class="floatLabel" name="activity-wechatorQQ">
-                        <label for="activity-wechatorQQ">微信</label>
-                    </div>
-                    <div class="controls">
-                        <i class="fa fa-sort"></i>
-                        <select class="floatLabel">
-                            <option value="blank"></option>
-                            <option value="1">学术交流</option>
-                            <option value="2">课外活动</option>
-                            <option value="3">志愿活动</option>
-                            <option value="4">爱好培训</option>
-                        </select>
-                        <label for="activityclass">活动类别</label>
-                    </div>
-                </div>
-                <!--  More -->
-                <div class="form-group">
-                    <h2 class="heading">活动描述</h2>
-                    <div class="controls">
-                        <textarea name="EventDescription" class="floatLabel" id="comments"></textarea>
-                        <label for="comments">活动简介：</label>
-                        <button type="submit">提交</button>
-                    </div>
-                </div>
-            </form>
+            </div>
         </div>
-
-    </article>
-
-    <script src="/content/js/jquery-2.1.1.min.js"></script>
-    <script>window.jQuery || document.write('<script src="/content/js/jquery-2.1.1.min.js"><\/script>')</script>
     <script>
-        (function ($) {
-            function floatLabel(inputType) {
-                $(inputType).each(function () {
-                    var $this = $(this);
-                    $this.focus(function () {
-                        $this.next().addClass('active');
+        $(document).ready(function () {
+            $.ajax({
+                url: "/user/ShowActivity",
+                type: "post",
+                datatype: "json",
+                success: function (data) {
+                    example4 = $('#columns').columns({
+                        data: data,
+                        schema: [
+                         { "header": "编号", "key": "PlaceID", "template": "00{{PlaceID}}" },
+                         { "header": "场地名称", "key": "PlaceName" },
+                         { "header": "场地容量", "key": "PlaceSize", "template": "{{PlaceSize}}人" },
+                         { "header": "", "key": "PlaceID", "template": '<a href="/Order/activity/{{PlaceID}}">预定</>' },
+                        ]
                     });
-                    $this.blur(function () {
-                        if ($this.val() === '' || $this.val() === 'blank') {
-                            $this.next().removeClass();
+                }
+            });
+            $("#select1 dd").click(function () {
+                $(this).addClass("selected").siblings().removeClass("selected");
+                if ($(this).hasClass("select-all")) {
+                    $("#selectA").remove();
+                    $('#columns').columns('destroy');
+                    $.ajax({
+                        url: "/user/ShowActivity/",
+                        success: function (result) {
+                            example4 = $('#columns').columns({
+                                data: result,
+                                schema: [
+                          { "header": "编号", "key": "PlaceID", "template": "00{{PlaceID}}" },
+                          { "header": "场地名称", "key": "PlaceName" },
+                          { "header": "场地容量", "key": "PlaceSize", "template": "{{PlaceSize}}人" },
+                          { "header": "", "key": "PlaceID", "template": '<a href="/Order/activity/{{PlaceID}}">预定</>' },
+                                ]
+                            });
                         }
                     });
-                });
-            }
-            floatLabel('.floatLabel');
-        }(jQuery));
+                } else {
+                    var copyThisA = $(this).clone();
+                    if ($("#selectA").length > 0) {
+                        $("#selectA a").html($(this).text());
+                        var exam = {
+                            AreaName: $(this).text(),
+                        };
+                        $('#columns').columns('destroy');
+                        $.ajax({
+                            url: "/user/ShowActivityByChange/",
+                            datatype: 'json',
+                            data: exam,
+                            success: function (result) {
+                                example4 = $('#columns').columns({
+                                    data: result,
+                                    schema: [
+                          { "header": "编号", "key": "PlaceID", "template": "00{{PlaceID}}" },
+                          { "header": "场地名称", "key": "PlaceName" },
+                          { "header": "场地容量", "key": "PlaceSize", "template": "{{PlaceSize}}人" },
+                          { "header": "", "key": "PlaceID", "template": '<a href="/Order/activity/{{PlaceID}}">预定</>' },
+                                    ]
+                                });
+                            }
+                        });
+                    } else {
+                        $(".select-result dl").append(copyThisA.attr("id", "selectA"));
+                        var exam = {
+                            AreaName: $(this).text(),
+                        };
+                        $('#columns').columns('destroy');
+                        $.ajax({
+                            url: "/user/ShowActivityByChange/",
+                            datatype: 'json',
+                            data: exam,
+                            success: function (result) {
+                                example4 = $('#columns').columns({
+                                    data: result,
+                                    schema: [
+                          { "header": "编号", "key": "PlaceID", "template": "00{{PlaceID}}" },
+                          { "header": "场地名称", "key": "PlaceName" },
+                          { "header": "场地容量", "key": "PlaceSize", "template": "{{PlaceSize}}人" },
+                          { "header": "预定", "key": "PlaceID", "template": '<a href="/Order/activity/{{PlaceID}}">预定</>' },
+                                    ]
+                                });
+                            }
+                        });
+
+                    }
+                }
+            });
+            $("#select2 dd").click(function () {
+                $(this).addClass("selected").siblings().removeClass("selected");
+                if ($(this).hasClass("select-all")) {
+                    $("#selectB").remove();
+                    $('#columns').columns('destroy');
+                    $.ajax({
+                        url: "/user/ShowActivity/",
+                        success: function (result) {
+                            example4 = $('#columns').columns({
+                                data: result,
+                                schema: [
+                          { "header": "编号", "key": "PlaceID", "template": "00{{PlaceID}}" },
+                          { "header": "场地名称", "key": "PlaceName" },
+                          { "header": "场地容量", "key": "PlaceSize", "template": "{{PlaceSize}}人" },
+                          { "header": "", "key": "PlaceID", "template": '<a href="/Order/activity/{{PlaceID}}">预定</>' },
+                                ]
+                            });
+                        }
+                    });
+                } else {
+                    var copyThisB = $(this).clone();
+                    if ($("#selectB").length > 0) {
+                        $("#selectB a").html($(this).text());
+                        var exam = {
+                            PlaceSize: $(this).text(),
+                        };
+                        $('#columns').columns('destroy');
+                        $.ajax({
+                            url: "/user/ShowActivityBySize/",
+                            datatype: 'json',
+                            data: exam,
+                            success: function (result) {
+                                example4 = $('#columns').columns({
+                                    data: result,
+                                    schema: [
+                          { "header": "编号", "key": "PlaceID", "template": "00{{PlaceID}}" },
+                          { "header": "场地名称", "key": "PlaceName" },
+                          { "header": "场地容量", "key": "PlaceSize", "template": "{{PlaceSize}}人" },
+                          { "header": "预定", "key": "PlaceID", "template": '<a href="/Order/activity/{{PlaceID}}">预定</>' },
+                                    ]
+                                });
+                            }
+                        });
+                    } else {
+                        $(".select-result dl").append(copyThisB.attr("id", "selectB"));
+                        var exam = {
+                            PlaceSize: $(this).text(),
+                        };
+                        $('#columns').columns('destroy');
+                        $.ajax({
+                            url: "/user/ShowActivityBySize/",
+                            datatype: 'json',
+                            data: exam,
+                            success: function (result) {
+                                example4 = $('#columns').columns({
+                                    data: result,
+                                    schema: [
+                          { "header": "编号", "key": "PlaceID", "template": "00{{PlaceID}}" },
+                          { "header": "场地名称", "key": "PlaceName" },
+                          { "header": "场地容量", "key": "PlaceSize", "template": "{{PlaceSize}}人" },
+                          { "header": "预定", "key": "PlaceID", "template": '<a href="/Order/activity/{{PlaceID}}">预定</>' },
+                                    ]
+                                });
+                            }
+                        });
+                    }
+                }
+            });
+
+            $("#select3 dd").click(function () {
+                $(this).addClass("selected").siblings().removeClass("selected");
+                if ($(this).hasClass("select-all")) {
+                    $("#selectC").remove();
+                } else {
+                    var copyThisC = $(this).clone();
+                    if ($("#selectC").length > 0) {
+                        $("#selectC a").html($(this).text());
+                    } else {
+                        $(".select-result dl").append(copyThisC.attr("id", "selectC"));
+                    }
+                }
+            });
+            $("#selectA").live("click", function () {
+                $(this).remove();
+                $("#select1 .select-all").addClass("selected").siblings().removeClass("selected");
+            });
+
+            $("#selectB").live("click", function () {
+                $(this).remove();
+                $("#select2 .select-all").addClass("selected").siblings().removeClass("selected");
+            });
+
+            $("#selectC").live("click", function () {
+                $(this).remove();
+                $("#select3 .select-all").addClass("selected").siblings().removeClass("selected");
+            });
+
+            $(".select dd").live("click", function () {
+                if ($(".select-result dd").length > 1) {
+                    $(".select-no").hide();
+                } else {
+                    $(".select-no").show();
+                }
+            });
+        });
     </script>
 </body>
 </html>

@@ -6,7 +6,13 @@
 //    如果重新生成代码，则将覆盖对此文件的手动更改。
 // </auto-generated>
 //------------------------------------------------------------------------------
-
+using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Data.Entity;
+using System.Globalization;
+using System.Web.Security;
 namespace Freedom.Models
 {
     using System;
@@ -16,11 +22,34 @@ namespace Freedom.Models
     {
         public int OrderID { get; set; }
         public int PlaceID { get; set; }
-        public System.DateTime UseTime { get; set; }
+        public int AdminID { get; set; }
+
+        [Required(ErrorMessage = "*")]
+        public string start { get; set; }
+
+        [Required(ErrorMessage = "*")]
+        public string end { get; set; }
+
+        [Required(ErrorMessage = "*")]
+        [DataType(DataType.PhoneNumber)]
+        [RegularExpression(@"(^[1][358][0-9]{9}$)", ErrorMessage = "输入的手机号不合法")]
+        [Display(Name = "联系方式")]
+        public string telphone { get; set; }
+
+        [Required(ErrorMessage = "*")]
+        public string WeChatNumber { get; set; }
+
+        [Required(ErrorMessage = "*")]
+        [StringLength(100, ErrorMessage = "{0}必须至少包含{2}个字。", MinimumLength = 1)]
+        [Display(Name = "活动主题")]
         public string EventTheme { get; set; }
+
+        [Required(ErrorMessage = "*")]
+        [StringLength(100, ErrorMessage = "{0}必须至少包含{2}个字。", MinimumLength = 20)]
+        [Display(Name = "活动描述")]
         public string EventDescription { get; set; }
         public string Condition { get; set; }
-        public int UserID { get; set; }
+        public string UseDate { get; set; }
     
         public virtual Order Order { get; set; }
         public virtual Place Place { get; set; }
